@@ -44,6 +44,7 @@ app.post('/organizations', urlencodedParser, function (req, res) {
     console.log("*************************");
     console.log(req.body);
     console.log("**********************************");
+    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
