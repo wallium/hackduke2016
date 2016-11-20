@@ -166,7 +166,7 @@ app.get('/disaster', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
-                                FROM Counties WHERE Crisis=%s",
+                                FROM Counties WHERE Crisis='%s'",
       req.query.disaster); 
     client.query(query).on('row', function(row){
       response.neededFood = response.neededFood + row.Food_needs;
