@@ -87,7 +87,7 @@ app.get('/county_contributions', function(req, res) {
       console.log("Ran into error");
       throw err;
     } 
-    var query = util.format("SELECT Organizations.Org_name AS orgName, Organizations.Address AS orgAddress, Services.Resource AS resourceType, Services.Provided AS distributed, Services.Received AS received
+    var query = util.format("SELECT Organizations.Org_name AS orgName, Organizations.Address AS orgAddress, Services.Resource AS resourceType, Services.Provided AS distributed, Services.Received AS received \
                                 FROM Organizations INNER JOIN Services ON Organizations.Org_name = Services.Org WHERE Services.County=%s",
       req.body.county); 
     client.query(query).on('row', function(row){
@@ -161,7 +161,7 @@ app.get('/disaster', function(req, res) {
       console.log("Ran into error");
       throw err;
     } 
-    var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs
+    var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
                                 FROM Counties WHERE Crisis=%s",
       req.body.disaster); 
     client.query(query).on('row', function(row){
@@ -174,7 +174,7 @@ app.get('/disaster', function(req, res) {
           console.log("Ran into error");
           throw err;
         } 
-        var query = util.format("SELECT Services.Resource AS resourceType, Services.Provided AS distributed
+        var query = util.format("SELECT Services.Resource AS resourceType, Services.Provided AS distributed \
                                     FROM Counties INNER JOIN Services ON Counties.County_name = Services.County WHERE Counties.Crisis=%s",
           req.body.disaster); 
         client.query(query).on('row', function(row){
@@ -216,7 +216,7 @@ app.get('/county_needs', function(req, res) {
       console.log("Ran into error");
       throw err;
     } 
-    var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs
+    var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
                                 FROM Counties WHERE County_name=%s",
       req.body.county); 
     client.query(query).on('row', function(row){
@@ -229,7 +229,7 @@ app.get('/county_needs', function(req, res) {
           console.log("Ran into error");
           throw err;
         } 
-        var query = util.format("SELECT Resource AS resourceType, Provided AS distributed
+        var query = util.format("SELECT Resource AS resourceType, Provided AS distributed \
                                     FROM Services WHERE County=%s",
           req.body.disaster); 
         client.query(query).on('row', function(row){
@@ -263,7 +263,7 @@ app.get('/org_single_contribution', function(req, res) {
       console.log("Ran into error");
       throw err;
     } 
-    var query = util.format("SELECT Received
+    var query = util.format("SELECT Received \
                                 FROM Services WHERE Org=%s AND County=%s AND Resource=%s",
       req.body.organization, req.body.county, req.body.resource); 
     client.query(query).on('row', function(row){
