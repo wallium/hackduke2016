@@ -169,9 +169,11 @@ app.get('/disaster', function(req, res) {
                                 FROM Counties WHERE Crisis='%s'",
       req.query.disaster); 
     client.query(query).on('row', function(row){
+      console.log(row);
       response.neededFood = response.neededFood + row.Food_needs;
       response.neededWater = response.neededWater + row.Water_needs;
       response.neededClothing = response.neededClothing + row.Clothing_needs;
+      console.log(response);
     }).on("end", function() {
       pg.connect(db, function(err, client) {
         if (err) {
