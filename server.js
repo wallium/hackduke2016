@@ -108,8 +108,8 @@ function servicesToContributions(services) {
   // unique organizations
   var orgs = [];
   for (service in services) {
-    if (orgs.indexOf(service.orgName) < 0) {
-      orgs.push(service.orgName);
+    if (orgs.indexOf(service.orgname) < 0) {
+      orgs.push(service.orgname);
     }
   }
 
@@ -124,9 +124,9 @@ function servicesToContributions(services) {
     contribution.receivedClothing = -1;
     contribution.distributionClothing = -1;
     for (service in services) {
-      if (service.orgName == org) {
-        contribution.orgAddress = service.orgAddress;
-        switch(service.resourceType) {
+      if (service.orgname == org) {
+        contribution.orgAddress = service.orgaddress;
+        switch(service.resourcetype) {
           case 'water':
             contribution.receivedWater = service.received;
             contribution.distributedWater = service.distributed;
@@ -226,9 +226,9 @@ app.get('/county_needs', function(req, res) {
                                 FROM Counties WHERE County_name='%s'",
       req.query.county); 
     client.query(query).on('row', function(row){
-      response.neededFood = response.neededFood + row.Food_needs;
-      response.neededWater = response.neededWater + row.Water_needs;
-      response.neededClothing = response.neededClothin + row.Clothing_needs;
+      response.neededFood = response.neededFood + row.food_needs;
+      response.neededWater = response.neededWater + row.water_needs;
+      response.neededClothing = response.neededClothin + row.clothing_needs;
     }).on("end", function() {
       pg.connect(db, function(err, client) {
         if (err) {
@@ -240,7 +240,7 @@ app.get('/county_needs', function(req, res) {
           req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
-          switch(row.resourceType) {
+          switch(row.resourcetype) {
             case 'water':
               response.receivedWater = response.receivedWater + row.distributed;
               break;
@@ -273,7 +273,7 @@ app.get('/org_single_contribution', function(req, res) {
                                 FROM Services WHERE Org='%s' AND County='%s' AND Resource='%s'",
       req.query.organization, req.query.county, req.query.resource); 
     client.query(query).on('row', function(row){
-      response.receivedResource = response.receivedResource + row.Received;
+      response.receivedResource = response.receivedResource + row.received;
     }).on("end", function() {
       res.end(JSON.stringify(response));
     });
