@@ -34,6 +34,11 @@ app.post('/verification', urlencodedParser, function (req, res) {
 // Adds a new organization
 app.post('/organizations', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
+    console.log("******************");
+    console.log(req);
+    console.log("*************************");
+    console.log(req.body);
+    console.log("**********************************");
     if (err) {
       console.log("Ran into error");
       throw err;
