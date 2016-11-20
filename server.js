@@ -12,6 +12,9 @@ pg.defaults.ssl = true;
 
 
 
+app.get('/', function (req, res) {
+  res.send('Hello World');
+})
 
 app.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
