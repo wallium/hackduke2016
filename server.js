@@ -4,6 +4,8 @@ require('es6-promise').polyfill();
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var db = 'postgres://oitsafamboapki:x6BEcGOw2_kJwR8nvqT6L_vDy2@ec2-54-243-45-168.compute-1.amazonaws.com:5432/d1kpljjduptkj8';
+var cors = require('cors');
+app.use(cors());
 const util = require('util');
 
 // Create application/x-www-form-urlencoded parser
