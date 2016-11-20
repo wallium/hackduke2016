@@ -170,9 +170,9 @@ app.get('/disaster', function(req, res) {
       req.query.disaster); 
     client.query(query).on('row', function(row){
       console.log(row);
-      response.neededFood = response.neededFood + row.Food_needs;
-      response.neededWater = response.neededWater + row.Water_needs;
-      response.neededClothing = response.neededClothing + row.Clothing_needs;
+      response.neededFood = response.neededFood + row.food_needs;
+      response.neededWater = response.neededWater + row.water_needs;
+      response.neededClothing = response.neededClothing + row.clothing_needs;
       console.log(response);
     }).on("end", function() {
       pg.connect(db, function(err, client) {
