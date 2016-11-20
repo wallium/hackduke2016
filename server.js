@@ -19,7 +19,6 @@ pg.defaults.ssl = true;
 // Updates the amount a organization has provided when a volunteer verifies
 app.post('/verification', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    req.body = JSON.parse(Object.keys(req.body)[0]);  // trust me
     if (err) {
       console.log("Ran into error");
       throw err;
@@ -35,7 +34,6 @@ app.post('/verification', urlencodedParser, function (req, res) {
 // Adds a new organization
 app.post('/organizations', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
@@ -51,7 +49,6 @@ app.post('/organizations', urlencodedParser, function (req, res) {
 // Adds a new county/resource that an organization wants to service
 app.post('/services', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
@@ -67,7 +64,6 @@ app.post('/services', urlencodedParser, function (req, res) {
 // Updates the resources received by an organization when a user donates
 app.post('/donation', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
@@ -84,7 +80,6 @@ app.post('/donation', urlencodedParser, function (req, res) {
 
 // Returns an array of each organization's contribution in a specific county
 app.get('/county_contributions', function(req, res) {
-  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = [];
   var services = [];
   pg.connect(db, function(err, client) {
@@ -94,7 +89,7 @@ app.get('/county_contributions', function(req, res) {
     } 
     var query = util.format("SELECT Organizations.Org_name AS orgName, Organizations.Address AS orgAddress, Services.Resource AS resourceType, Services.Provided AS distributed, Services.Received AS received \
                                 FROM Organizations INNER JOIN Services ON Organizations.Org_name = Services.Org WHERE Services.County=%s",
-      req.body.county); 
+      req.query.county); 
     client.query(query).on('row', function(row){
       services.push(row);
       // console.log(JSON.stringify(row));
@@ -152,15 +147,6 @@ function servicesToContributions(services) {
 
 // Returns total resources needed and received for all counties in a disaster
 app.get('/disaster', function(req, res) {
-      console.log("******************");
-    console.log(req);
-    console.log("*************************");
-    console.log(req.body);
-    console.log("**********************************");
-    console.log(Object.keys(req));
-  req.body = JSON.parse(Object.keys(req.body)[0]);
-    console.log("**********************************");
-    console.log(req.body);
   var response = {
     receivedFood: 0,
     neededFood: 0,
@@ -177,7 +163,7 @@ app.get('/disaster', function(req, res) {
     } 
     var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
                                 FROM Counties WHERE Crisis=%s",
-      req.body.disaster); 
+      req.query.disaster); 
     client.query(query).on('row', function(row){
       response.neededFood = response.neededFood + row.Food_needs;
       response.neededWater = response.neededWater + row.Water_needs;
@@ -190,7 +176,7 @@ app.get('/disaster', function(req, res) {
         } 
         var query = util.format("SELECT Services.Resource AS resourceType, Services.Provided AS distributed \
                                     FROM Counties INNER JOIN Services ON Counties.County_name = Services.County WHERE Counties.Crisis=%s",
-          req.body.disaster); 
+          req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
           switch(row.resourceType) {
@@ -216,7 +202,6 @@ app.get('/disaster', function(req, res) {
 
 // Returns total resources needed and received by a county
 app.get('/county_needs', function(req, res) {
-  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = {
     receivedFood: 0,
     neededFood: 0,
@@ -233,7 +218,7 @@ app.get('/county_needs', function(req, res) {
     } 
     var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
                                 FROM Counties WHERE County_name=%s",
-      req.body.county); 
+      req.query.county); 
     client.query(query).on('row', function(row){
       response.neededFood = response.neededFood + row.Food_needs;
       response.neededWater = response.neededWater + row.Water_needs;
@@ -246,7 +231,7 @@ app.get('/county_needs', function(req, res) {
         } 
         var query = util.format("SELECT Resource AS resourceType, Provided AS distributed \
                                     FROM Services WHERE County=%s",
-          req.body.disaster); 
+          req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
           switch(row.resourceType) {
@@ -272,7 +257,6 @@ app.get('/county_needs', function(req, res) {
 
 // Returns the quantity of a resource that an organization has given to a county
 app.get('/org_single_contribution', function(req, res) {
-  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = {receivedResource: 0};
   pg.connect(db, function(err, client) {
     if (err) {
@@ -281,7 +265,7 @@ app.get('/org_single_contribution', function(req, res) {
     } 
     var query = util.format("SELECT Received \
                                 FROM Services WHERE Org=%s AND County=%s AND Resource=%s",
-      req.body.organization, req.body.county, req.body.resource); 
+      req.query.organization, req.query.county, req.query.resource); 
     client.query(query).on('row', function(row){
       response.receivedResource = response.receivedResource + row.Received;
     }).on("end", function() {
