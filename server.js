@@ -185,7 +185,7 @@ app.get('/disaster', function(req, res) {
           req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
-          switch(row.resourceType) {
+          switch(row.resourcetype) {
             case 'water':
               response.receivedWater = response.receivedWater + row.distributed;
               break;
