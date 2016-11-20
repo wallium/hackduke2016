@@ -53,9 +53,8 @@ app.post('/organizations', urlencodedParser, function (req, res) {
       throw err;
     } 
     // console.log(req.body);
-    var query = util.format("INSERT INTO Organizations VALUES (%s, %s);",
-      req.body.organizationName, req.body.organizationAddress);
-    console.log(query); 
+    var query = util.format("INSERT INTO Organizations (Org_name, Address) VALUES ('%s', '%s');",
+      req.body.organizationName, req.body.organizationAddress); 
     // console.log(query);
     client.query(query);
   });
