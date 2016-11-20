@@ -157,6 +157,7 @@ app.get('/disaster', function(req, res) {
     console.log("*************************");
     console.log(req.body);
     console.log("**********************************");
+    console.log(Object.keys(req));
   req.body = JSON.parse(Object.keys(req.body)[0]);
     console.log("**********************************");
     console.log(req.body);
