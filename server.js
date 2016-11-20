@@ -45,13 +45,16 @@ app.post('/organizations', urlencodedParser, function (req, res) {
     console.log(req.body);
     console.log("**********************************");
     req.body = JSON.parse(Object.keys(req.body)[0]);
+    console.log("**************************");
+    console.log(req.body);
+    console.log("**************************");
     if (err) {
       console.log("Ran into error");
       throw err;
     } 
     // console.log(req.body);
     var query = util.format("INSERT INTO Organizations (Org_name, Address) VALUES (%s, %s);",
-      req.body.organizationName, req.body.orginizationAddress); 
+      req.body.organizationName, req.body.organizationAddress); 
     // console.log(query);
     client.query(query);
   });
