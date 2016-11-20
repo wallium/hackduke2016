@@ -280,6 +280,25 @@ app.get('/org_single_contribution', function(req, res) {
   });
 })
 
+// Returns the list of disasters
+app.get('/disaster_names', function(req, res) {
+  var response = [];
+  pg.connect(db, function(err, client) {
+    if (err) {
+      console.log("Ran into error");
+      throw err;
+    } 
+    var query = util.format("SELECT Crisis_name \
+                                FROM Crises",
+      req.query.organization, req.query.county, req.query.resource); 
+    client.query(query).on('row', function(row){
+      response.push(row.crisis_name);
+    }).on("end", function() {
+      res.end(JSON.stringify(response));
+    });
+  });
+})
+
 
 app.get('/', function (req, res) {
   res.send('Hello World');
