@@ -92,7 +92,7 @@ app.get('/county_contributions', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Organizations.Org_name AS orgName, Organizations.Address AS orgAddress, Services.Resource AS resourceType, Services.Provided AS distributed, Services.Received AS received \
-                                FROM Organizations INNER JOIN Services ON Organizations.Org_name = Services.Org WHERE Services.County=%s",
+                                FROM Organizations INNER JOIN Services ON Organizations.Org_name = Services.Org WHERE Services.County=%s;",
       req.query.county); 
     client.query(query).on('row', function(row){
       services.push(row);
@@ -166,7 +166,7 @@ app.get('/disaster', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
-                                FROM Counties WHERE Crisis='%s'",
+                                FROM Counties WHERE Crisis='%s';",
       req.query.disaster); 
     client.query(query).on('row', function(row){
       console.log(row);
@@ -181,7 +181,7 @@ app.get('/disaster', function(req, res) {
           throw err;
         } 
         var query = util.format("SELECT Services.Resource AS resourceType, Services.Provided AS distributed \
-                                    FROM Counties INNER JOIN Services ON Counties.County_name = Services.County WHERE Counties.Crisis='%s'",
+                                    FROM Counties INNER JOIN Services ON Counties.County_name = Services.County WHERE Counties.Crisis='%s';",
           req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
@@ -223,7 +223,7 @@ app.get('/county_needs', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Water_needs, Food_needs, Clothing_needs \
-                                FROM Counties WHERE County_name='%s'",
+                                FROM Counties WHERE County_name='%s';",
       req.query.county); 
     client.query(query).on('row', function(row){
       response.neededFood = response.neededFood + row.food_needs;
@@ -236,7 +236,7 @@ app.get('/county_needs', function(req, res) {
           throw err;
         } 
         var query = util.format("SELECT Resource AS resourceType, Provided AS distributed \
-                                    FROM Services WHERE County='%s'",
+                                    FROM Services WHERE County='%s';",
           req.query.disaster); 
         client.query(query).on('row', function(row){
           // console.log(JSON.stringify(row));
@@ -270,7 +270,7 @@ app.get('/org_single_contribution', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Received \
-                                FROM Services WHERE Org='%s' AND County='%s' AND Resource='%s'",
+                                FROM Services WHERE Org='%s' AND County='%s' AND Resource='%s';",
       req.query.organization, req.query.county, req.query.resource); 
     client.query(query).on('row', function(row){
       response.receivedResource = response.receivedResource + row.received;
@@ -289,8 +289,7 @@ app.get('/disaster_names', function(req, res) {
       throw err;
     } 
     var query = util.format("SELECT Crisis_name \
-                                FROM Crises",
-      req.query.organization, req.query.county, req.query.resource); 
+                                FROM Crises;"); 
     client.query(query).on('row', function(row){
       response.push(row.crisis_name);
     }).on("end", function() {
