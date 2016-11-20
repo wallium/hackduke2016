@@ -152,12 +152,14 @@ function servicesToContributions(services) {
 
 // Returns total resources needed and received for all counties in a disaster
 app.get('/disaster', function(req, res) {
+      console.log("******************");
+    console.log(req);
+    console.log("*************************");
+    console.log(req.body);
+    console.log("**********************************");
   req.body = JSON.parse(Object.keys(req.body)[0]);
-    //   console.log("******************");
-    // console.log(req);
-    // console.log("*************************");
-    // console.log(req.body);
-    // console.log("**********************************");
+    console.log("**********************************");
+    console.log(req.body);
   var response = {
     receivedFood: 0,
     neededFood: 0,
