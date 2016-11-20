@@ -197,7 +197,7 @@ app.get('/disaster', function(req, res) {
               console.log("Invalid resource type");
           }
         }).on("end", function() {
-          res.end(response);
+          res.end(JSON.stringify(response));
         });
       });
     });
@@ -252,7 +252,7 @@ app.get('/county_needs', function(req, res) {
               console.log("Invalid resource type");
           }
         }).on("end", function() {
-          res.end(response);
+          res.end(JSON.stringify(response));
         });
       });
     });
