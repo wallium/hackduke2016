@@ -19,6 +19,11 @@ pg.defaults.ssl = true;
 // Updates the amount a organization has provided when a volunteer verifies
 app.post('/verification', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
+    console.log("******************");
+    console.log(req);
+    console.log("*************************");
+    console.log(req.body);
+    console.log("**********************************");
     if (err) {
       console.log("Ran into error");
       throw err;
