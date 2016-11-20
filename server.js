@@ -84,6 +84,7 @@ app.post('/donation', urlencodedParser, function (req, res) {
 
 // Returns an array of each organization's contribution in a specific county
 app.get('/county_contributions', function(req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = [];
   var services = [];
   pg.connect(db, function(err, client) {
@@ -151,11 +152,12 @@ function servicesToContributions(services) {
 
 // Returns total resources needed and received for all counties in a disaster
 app.get('/disaster', function(req, res) {
-      console.log("******************");
-    console.log(req);
-    console.log("*************************");
-    console.log(req.body);
-    console.log("**********************************");
+  req.body = JSON.parse(Object.keys(req.body)[0]);
+    //   console.log("******************");
+    // console.log(req);
+    // console.log("*************************");
+    // console.log(req.body);
+    // console.log("**********************************");
   var response = {
     receivedFood: 0,
     neededFood: 0,
@@ -211,6 +213,7 @@ app.get('/disaster', function(req, res) {
 
 // Returns total resources needed and received by a county
 app.get('/county_needs', function(req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = {
     receivedFood: 0,
     neededFood: 0,
@@ -266,6 +269,7 @@ app.get('/county_needs', function(req, res) {
 
 // Returns the quantity of a resource that an organization has given to a county
 app.get('/org_single_contribution', function(req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   var response = {receivedResource: 0};
   pg.connect(db, function(err, client) {
     if (err) {
