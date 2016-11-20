@@ -18,6 +18,7 @@ pg.defaults.ssl = true;
 
 // Updates the amount a organization has provided when a volunteer verifies
 app.post('/verification', urlencodedParser, function (req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   pg.connect(db, function(err, client) {
     if (err) {
       console.log("Ran into error");
@@ -33,6 +34,7 @@ app.post('/verification', urlencodedParser, function (req, res) {
 
 // Adds a new organization
 app.post('/organizations', urlencodedParser, function (req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   pg.connect(db, function(err, client) {
     if (err) {
       console.log("Ran into error");
@@ -48,6 +50,7 @@ app.post('/organizations', urlencodedParser, function (req, res) {
 
 // Adds a new county/resource that an organization wants to service
 app.post('/services', urlencodedParser, function (req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   pg.connect(db, function(err, client) {
     if (err) {
       console.log("Ran into error");
@@ -63,6 +66,7 @@ app.post('/services', urlencodedParser, function (req, res) {
 
 // Updates the resources received by an organization when a user donates
 app.post('/donation', urlencodedParser, function (req, res) {
+  req.body = JSON.parse(Object.keys(req.body)[0]);
   pg.connect(db, function(err, client) {
     if (err) {
       console.log("Ran into error");
