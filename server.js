@@ -60,7 +60,7 @@ app.post('/services', urlencodedParser, function (req, res) {
 })
 
 // Updates the resources received by an organization when a user donates
-app.post('/services', urlencodedParser, function (req, res) {
+app.post('/donation', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
     if (err) {
       console.log("Ran into error");
