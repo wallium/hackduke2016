@@ -109,7 +109,7 @@ function servicesToContributions(services) {
     }
   }
 
-  var contributions[];
+  var contributions = [];
   for (org in orgs) {
     var contribution = new Object();
     contribution.orgName = org;
