@@ -19,17 +19,13 @@ pg.defaults.ssl = true;
 // Updates the amount a organization has provided when a volunteer verifies
 app.post('/verification', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    console.log("******************");
-    console.log(req);
-    console.log("*************************");
-    console.log(req.body);
-    console.log("**********************************");
+    req.body = JSON.parse(Object.keys(req.body)[0]);  // trust me
     if (err) {
       console.log("Ran into error");
       throw err;
     } 
     // console.log(req.body);
-    var query = util.format("UPDATE Services SET Provided=%d WHERE County=%s AND Org=%s AND Resource=%s;",
+    var query = util.format("UPDATE Services SET Provided=%d WHERE County='%s' AND Org='%s' AND Resource='%s';",
       req.body.quantity, req.body.county, req.body.organizationName, req.body.resourceType); 
     // console.log(query);
     client.query(query);
@@ -39,15 +35,7 @@ app.post('/verification', urlencodedParser, function (req, res) {
 // Adds a new organization
 app.post('/organizations', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
-    console.log("******************");
-    console.log(req);
-    console.log("*************************");
-    console.log(req.body);
-    console.log("**********************************");
     req.body = JSON.parse(Object.keys(req.body)[0]);
-    console.log("**************************");
-    console.log(req.body);
-    console.log("**************************");
     if (err) {
       console.log("Ran into error");
       throw err;
@@ -63,12 +51,13 @@ app.post('/organizations', urlencodedParser, function (req, res) {
 // Adds a new county/resource that an organization wants to service
 app.post('/services', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
+    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
     } 
     // console.log(req.body);
-    var query = util.format("INSERT INTO Services (County, Org, Resource, Provided, Received) VALUES (%s, %s, %s, %d, %d);",
+    var query = util.format("INSERT INTO Services (County, Org, Resource, Provided, Received) VALUES ('%s', '%s', '%s', %d, %d);",
       req.body.county, req.body.organizationName, req.body.resourceType, 0, 0); 
     // console.log(query);
     client.query(query);
@@ -78,12 +67,13 @@ app.post('/services', urlencodedParser, function (req, res) {
 // Updates the resources received by an organization when a user donates
 app.post('/donation', urlencodedParser, function (req, res) {
   pg.connect(db, function(err, client) {
+    req.body = JSON.parse(Object.keys(req.body)[0]);
     if (err) {
       console.log("Ran into error");
       throw err;
     } 
     // console.log(req.body);
-    var query = util.format("UPDATE Services SET Received=%d WHERE County=%s AND Org=%s AND Resource=%s;",
+    var query = util.format("UPDATE Services SET Received=%d WHERE County='%s' AND Org='%s' AND Resource='%s';",
       req.body.newResourceValue, req.body.county, req.body.organization, req.body.resourceType); 
     // console.log(query);
     client.query(query);
